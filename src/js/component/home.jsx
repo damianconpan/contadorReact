@@ -1,26 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+const Contador = () => {
+  const [counter, setCounter] = useState(0);
 
-//create your first component
-const Home = () => {
-	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
-	);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCounter((prevCounter) => prevCounter + 1); 
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+ 
+  const counterDigits = counter.toString().padStart(4, '0').split('');
+  
+  return (
+    <div className="container text-center contenedor">
+      <div className="row">
+        <div className="col">
+          <FontAwesomeIcon icon={faClock} /> 
+        </div>
+        {counterDigits.map((digit, index) => (
+          <div key={index} className="col">
+            {digit} 
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
-export default Home;
+export default Contador;
